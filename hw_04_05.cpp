@@ -1,6 +1,7 @@
 #include <iostream>
-#include <stack>
-using namespace std;
+using std::cin;
+using std::cout;
+using std::endl;
 
 void permutation(int arr[], int used[], int m, int times) {
     int i, j;
