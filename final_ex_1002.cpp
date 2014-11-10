@@ -2,7 +2,9 @@
 
 int a[1010][1010];
 
-int main() {
+int main() 
+/* 杨氏矩阵快速查找元素 */
+{
     int t, m, n, num, i, j, k;
     scanf("%d", &t);
     while (t-- > 0) {
