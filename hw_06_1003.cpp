@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 int a[1001];
 
 void sort_arr(int low, int hig) {
@@ -18,18 +19,17 @@ void sort_arr(int low, int hig) {
 
 int main() {
     int t, i;
-    int n_persons, floor, boxNum;
+    int n_persons, floors, boxNum;
     scanf("%d", &t);
     while (t-- > 0) {
         int pos, status;
-
-        scanf("%d%d%d", &n_persons, &floor, &boxNum);
+        scanf("%d%d%d", &n_persons, &floors, &boxNum);
         for (i = 0; i < n_persons; i++) {
             scanf("%d%d", &pos, &status);
             if (0 == status) {
                 a[i] = pos;
             } else if (1 == status) {
-                a[i] = 2*floor - pos;
+                a[i] = 2*floors - pos;
             }
         }
         sort_arr(0, n_persons - 1);
@@ -37,10 +37,10 @@ int main() {
         int last = boxNum % n_persons;
         if (last == 0) {
             sum_time += a[n_persons - 1];
-            sum_time += ((boxNum / n_persons - 1)*2 + 1) * floor;
+            sum_time += ((boxNum / n_persons - 1)*2 + 1) * floors;
         } else {
             sum_time += a[last - 1];
-            sum_time += (boxNum / n_persons * 2 + 1) * floor;
+            sum_time += (boxNum / n_persons * 2 + 1) * floors;
         }
         printf("%d\n", sum_time);
     }
