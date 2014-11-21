@@ -9,7 +9,8 @@
 #define _SORTABLE_LIST_
 
 #include <iostream>
-using namespace std;
+using std::cout;
+using std::endl;
 
 template <class Record>
 struct Node
@@ -34,15 +35,15 @@ public:
         head = NULL;
     }
     // 在第position个位置插入值为entry的元素，如果position为0则插入在链表头，以此类推
-    // 输入数据中，position满足 0 < position < 链表元素数量
+    // 输入数据中，position满足 0 <= position < 链表元素数量
     void insert(int position, const Record &entry) {
         Node<Record> *temp = new Node<Record>;
         temp->next = NULL;
         temp->entry = entry;
-        if (0 == position) {
+        if (0 == position) {	// insert from the head
             temp->next = head;
             head = temp;
-        } else {
+        } else {	// normal insert
             Node<Record> *ptr = head;
             for (int i = 0; i < position - 1; i++) {
                 ptr = ptr->next;
@@ -67,12 +68,12 @@ public:
     Node<Record> * getMiddle(Node<Record> * start) {
         int size = 0;
         Node<Record> * cur = start;
-        while (cur != NULL) {
+        while (cur != NULL) {	// count size
             size++;
             cur = cur->next;
         }
         size = size/2 - 1;
-        while (size-- > 0) {
+        while (size-- > 0) {	// get the middle position pointer
             start = start->next;
         }
         return start;
@@ -84,8 +85,8 @@ public:
         Node<Record> * mid = getMiddle(first);
         Node<Record> * second = mid->next;
         mid->next = NULL;
-        first = sort(first);
-        second = sort(second);
+        first = sort(first);	// sort the first sequence list
+        second = sort(second);	  // sort the second sequence list
         return merge_list(first, second);
     }
     Node<Record> * merge_list(Node<Record> *first, Node<Record> * second) {
@@ -95,7 +96,7 @@ public:
             return second;
         } else if (second == NULL) {
             return first;
-        } else if (first->entry > second->entry) {
+        } else if (first->entry > second->entry) {    // determinate the head position after merging
             ptr = cur = second;
             second = second->next;
         } else {
@@ -125,8 +126,7 @@ public:
         return ptr;
     }
 private:
-    Node<Record> *head;                                     // 链表头指针
+    Node<Record> *head;    // 链表头指针
 };
 
 #endif
-
