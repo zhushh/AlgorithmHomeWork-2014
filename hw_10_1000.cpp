@@ -36,7 +36,7 @@ int hash(int key) {
 void insert_hash(int key, char *name) {
     int i;
     sum++;
-    for (i = key; table[i % m] != NULL && i < MAX; i++) sum++;
+    for (i = key; table[i % m] != NULL; i++) sum++;
     table[i % m] = name;
 }
 
