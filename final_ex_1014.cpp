@@ -27,7 +27,7 @@ int dijkstra(int start, int end) {
                 min = dist[w];
             }
         }
-        if (index < 0) break;   // can't find path
+        if (index < 0) break;   // determine whether there exits a path, can't be ignored
         else visited[index] = true;
         for (int k = 0; k < n; k++) {
             if (!visited[k]) {
