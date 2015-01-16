@@ -16,23 +16,34 @@ struct huffman_root {
     struct huffman_root * right;
     huffman_root() : sum_weight(0), data(NULL), left(NULL), right(NULL) {}
 };
+
 // store huffman roots' address
-struct huffman_root * huffman[110];
+struct huffman_root * huffman[113];
+
+// compare the data
+int compare(const void * l, const void * r) {
+    struct huffman_root * a = (struct huffman_root *)l;
+    struct huffman_root * b = (struct huffman_root *)r;
+    if (a->sum_weight > b->sum_weight) return 1;
+    else return 0;
+}
 
 // increasing sort depen on the weight of huffman leaf
-void sort_huffman(int low, int hig) {
+void sort_huffman(int low, int hig, int (*compare)(const void *, const void*)) {
     if (low < hig) {
         int l = low, h = hig;
         struct huffman_root * ptr = huffman[low];
         while (l < h) {
-            while (l < h && huffman[h]->sum_weight > ptr->sum_weight) --h;
+            // while (l < h && huffman[h]->sum_weight > ptr->sum_weight) --h;
+            while (l < h && compare((void*)huffman[h], (void*)ptr)) --h;
             if (l < h) huffman[l++] = huffman[h];
-            while (l < h && huffman[l]->sum_weight < ptr->sum_weight) ++l;
+            // while (l < h && huffman[l]->sum_weight < ptr->sum_weight) ++l;
+            while (l < h && compare((void*)ptr, (void*)huffman[l])) ++l;
             if (l < h) huffman[h--] = huffman[l];
         }
         huffman[l] = ptr;
-        sort_huffman(low, l - 1);
-        sort_huffman(l + 1, hig);
+        sort_huffman(low, l - 1, compare);
+        sort_huffman(l + 1, hig, compare);
     }
 }
 
@@ -44,7 +55,7 @@ struct huffman_root* create_huffman_tree(int n) {
         huffman[n + j]->sum_weight = huffman[k]->sum_weight + huffman[k+1]->sum_weight;
         huffman[n + j]->left = huffman[k];
         huffman[n + j]->right = huffman[k + 1];
-        sort_huffman(k + 2, n + j);
+        sort_huffman(k + 2, n + j, compare);
     }
     return huffman[n + j - 1];
 }
@@ -83,7 +94,7 @@ int main() {
         temp->sum_weight = temp->data->weight;
         huffman[i] = temp;
     }
-    sort_huffman(0, n - 1);
+    sort_huffman(0, n - 1, compare);
 
     struct huffman_root * root;
     root = create_huffman_tree(n);
